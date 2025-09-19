@@ -1,0 +1,32 @@
+{
+  "rules": {
+    "votes": {
+      ".read": "auth != null",
+      ".write": "auth != null"
+    },
+    "proposals": {
+      ".read": "auth != null", 
+      ".write": "auth != null"
+    },
+    "applications": {
+      ".read": "auth != null",
+      ".write": "auth != null"
+    },
+    "userProfiles": {
+      ".read": "auth != null",
+      ".write": "auth != null"
+    },
+    "finalVotes": {
+      ".read": "auth != null",
+      ".write": "auth != null"
+    },
+    "discussions": {
+      ".read": "auth != null",
+      ".write": "auth != null"
+    },
+    "test": {
+      ".read": "auth != null",
+      ".write": "auth != null"
+    }
+  }
+}
