@@ -142,9 +142,9 @@ export interface FinalVote extends BaseEntity {
 	isActive: boolean;
 	totalVotes: number;
 	options: [
-		{ id: 'for'; text: 'Pour'; votes: number },
-		{ id: 'abstain'; text: 'Ne se prononce pas'; votes: number },
-		{ id: 'against'; text: 'Contre'; votes: number }
+		{ id: 'for'; text: 'For'; votes: number },
+		{ id: 'abstain'; text: 'Abstain'; votes: number },
+		{ id: 'against'; text: 'Against'; votes: number }
 	];
 }
 

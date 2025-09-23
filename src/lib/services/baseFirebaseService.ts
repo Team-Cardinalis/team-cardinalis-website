@@ -91,7 +91,7 @@ export abstract class BaseFirebaseService {
 	}
 
 	/**
-	 * Extrait le code d'erreur Firebase
+	 * Extract Firebase error code
 	 */
 	private extractErrorCode(error: unknown): string {
 		if (error && typeof error === 'object' && 'code' in error) {

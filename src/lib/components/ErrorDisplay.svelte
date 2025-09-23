@@ -13,7 +13,7 @@
 	let errors: AppError[] = [];
 	let isVisible = false;
 
-	// S'abonner aux changements d'erreurs
+	// Subscribe to error changes
 	$: {
 		errorStore.subscribe((errorList: AppError[]) => {
 			errors = errorList.slice(0, maxErrors);
@@ -22,7 +22,7 @@
 	}
 
 	onMount(() => {
-		// Nettoyer les erreurs anciennes au montage
+		// Clean up old errors on mount
 		errorService.clearOldErrors();
 
 		// Auto-hide errors if enabled
@@ -49,13 +49,13 @@
 	<div class="error-container" style="position: fixed; top: 80px; right: var(--gap-4); z-index: 10000; max-width: 400px;">
 		<div class="error-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--gap-2);">
 			<h3 style="margin: 0; font-size: 16px; color: var(--text);">
-				Erreurs ({errors.length})
+				Errors ({errors.length})
 			</h3>
 			<button
 				on:click={dismissAllErrors}
 				class="btn-secondary btn-small"
 				style="padding: 4px 8px; font-size: 12px;"
-				title="Fermer toutes les erreurs"
+				title="Close all errors"
 			>
 				✕
 			</button>
@@ -102,7 +102,7 @@
 										const target = e.target as HTMLElement;
 										if (target) target.style.color = 'var(--text-3)';
 									}}
-									title="Fermer cette erreur"
+									title="Close this error"
 								>
 									✕
 								</button>

@@ -191,11 +191,11 @@ export class UIHelpers {
 }
 
 /**
- * Utilitaires pour les jeux
+ * Game utilities
  */
 export class GameHelpers {
 	/**
-	 * Obtient le nom complet d'un jeu
+	 * Get the full name of a game
 	 */
 	static getGameName(gameType: string): string {
 		const gameMap: Record<string, string> = {
@@ -258,7 +258,7 @@ export class URLHelpers {
 	}
 
 	/**
-	 * Obtient l'URL de proposition avec un filtre de jeu
+	 * Get the proposal URL with a game filter
 	 */
 	static getProposeUrl(gameType?: GameType): string {
 		return this.buildUrl('/dashboard/propose', { game: gameType });

@@ -2,8 +2,8 @@
 	import Navigation from '$lib/components/Navigation.svelte';
 	import PageHead from '$lib/components/PageHead.svelte';
 
-	const title = 'Gestion des cookies - Team Cardinalis';
-	const description = 'Information sur l\'utilisation des cookies et traceurs sur le site Team Cardinalis';
+	const title = 'Cookie Management - Team Cardinalis';
+	const description = 'Information about the use of cookies and trackers on the Team Cardinalis website';
 </script>
 
 <PageHead title={title} description={description} />

@@ -3,7 +3,7 @@
 	import PageHead from '$lib/components/PageHead.svelte';
 
 	const title = 'Legal Notice - Team Cardinalis';
-	const description = 'Legal notice of the Team Cardinalis website in accordance with LCEN law';
+	const description = 'Legal notice of the Team Cardinalis website in accordance with applicable law';
 </script>
 
 <PageHead title={title} description={description} />

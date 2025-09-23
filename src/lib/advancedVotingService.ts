@@ -270,9 +270,9 @@ export class AdvancedVotingService extends BaseFirebaseService {
 				isActive: true,
 				totalVotes: 0,
 				options: [
-					{ id: 'for', text: 'Pour', votes: 0 },
-					{ id: 'abstain', text: 'Ne se prononce pas', votes: 0 },
-					{ id: 'against', text: 'Contre', votes: 0 }
+					{ id: 'for', text: 'For', votes: 0 },
+					{ id: 'abstain', text: 'Abstain', votes: 0 },
+					{ id: 'against', text: 'Against', votes: 0 }
 				]
 			};
 			

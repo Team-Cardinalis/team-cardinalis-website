@@ -10,9 +10,9 @@ const config = {
 		adapter: adapter({
 			pages: 'build',
 			assets: 'build',
-			fallback: 'index.html',
+			fallback: '404.html',
 			precompress: false,
-			strict: true
+			strict: false
 		}),
 		alias: {
 			$lib: 'src/lib'
@@ -21,6 +21,11 @@ const config = {
 		paths: {
 			base: '',
 			relative: false
+		},
+		// Force prerendering for all pages
+		prerender: {
+			handleHttpError: 'warn',
+			entries: ['*']
 		}
 	}
 };
