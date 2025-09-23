@@ -9,8 +9,8 @@
 	import type { FinalVote, UserVote } from '$lib/types';
 	import { page } from '$app/stores';
 	import { user } from '$lib';
-	import { ref, get } from 'firebase/database';
 	import { database } from '$lib/firebase';
+	import { ref, get } from 'firebase/database';
 
 	const votingService = AdvancedVotingService.getInstance();
 	let finalVotes: FinalVote[] = [];

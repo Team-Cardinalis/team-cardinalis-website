@@ -1,5 +1,5 @@
 import { database } from './firebase';
-import { ref, get, query, orderByChild, limitToLast } from 'firebase/database';
+import { ref, get } from 'firebase/database';
 import { AdvancedVotingService } from './advancedVotingService';
 import { VotingService } from './votingService';
 import type { Application, Proposal, Vote, FinalVote, UserProfile } from './types';
