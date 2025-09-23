@@ -33,12 +33,12 @@ jobs:
         run: cp build/index.html build/404.html
       - name: Create .nojekyll
         run: touch build/.nojekyll
-      - name: Verify manifest.json
+      - name: Verify build output
         run: |
-          echo "Checking if manifest.json exists at root:"
+          echo "Checking build directory contents:"
           ls -la build/
-          echo "Content of manifest.json:"
-          cat build/manifest.json
+          echo "Checking if index.html exists:"
+          ls -la build/index.html
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
