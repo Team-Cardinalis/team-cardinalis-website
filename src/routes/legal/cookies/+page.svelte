@@ -1,12 +1,12 @@
 <script lang="ts">
 	import Navigation from '$lib/components/Navigation.svelte';
 	import PageHead from '$lib/components/PageHead.svelte';
-	import type { PageData } from './$types';
 
-	export let data: PageData;
+	const title = 'Gestion des cookies - Team Cardinalis';
+	const description = 'Information sur l\'utilisation des cookies et traceurs sur le site Team Cardinalis';
 </script>
 
-<PageHead title={data.title} description={data.description} />
+<PageHead title={title} description={description} />
 
 <div class="min-h-screen bg-black">
 	<Navigation currentPage="legal" />

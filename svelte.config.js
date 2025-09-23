@@ -16,6 +16,11 @@ const config = {
 		}),
 		alias: {
 			$lib: 'src/lib'
+		},
+		// Configuration for static deployment
+		paths: {
+			base: '',
+			relative: false
 		}
 	}
 };

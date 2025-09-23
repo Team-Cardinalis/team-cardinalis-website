@@ -1,12 +1,12 @@
 <script lang="ts">
 	import Navigation from '$lib/components/Navigation.svelte';
 	import PageHead from '$lib/components/PageHead.svelte';
-	import type { PageData } from './$types';
 
-	export let data: PageData;
+	const title = 'Legal Notice - Team Cardinalis';
+	const description = 'Legal notice of the Team Cardinalis website in accordance with LCEN law';
 </script>
 
-<PageHead title={data.title} description={data.description} />
+<PageHead title={title} description={description} />
 
 <div class="min-h-screen bg-black">
 	<Navigation currentPage="legal" />
