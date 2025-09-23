@@ -9,8 +9,8 @@
 	import type { Application, ApplicationComment } from '$lib/types';
 	import { page } from '$app/stores';
 	import { user } from '$lib';
-	import { database } from '$lib/firebase';
 	import { ref, get } from 'firebase/database';
+	import { database } from '$lib/firebase';
 
 	const votingService = AdvancedVotingService.getInstance();
 	let applications: Application[] = [];
