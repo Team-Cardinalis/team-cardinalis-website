@@ -15,10 +15,10 @@
 	];
 
 	const recentMatches = [
-		{ title: 'ALGS Championship Finals', opponent: 'Team Phoenix', result: 'Victory', score: '3-1', isVictory: true },
-		{ title: 'VCT Masters', opponent: 'Shadow Gaming', result: 'Victory', score: '13-8', isVictory: true },
-		{ title: 'Weekly Apex Cup', opponent: 'Elite Squad', result: 'Defeat', score: '1-2', isVictory: false },
-		{ title: 'Valorant Challengers', opponent: 'Night Hawks', result: 'Victory', score: '13-7', isVictory: true }
+		{ title: 'ALGS Global Series 2024', opponent: '', result: '', score: '', isVictory: true },
+		{ title: 'EVC European Championship 2024', opponent: '', result: '', score: '', isVictory: true },
+		{ title: 'ALGS Global Series 2023', opponent: '', result: '', score: '', isVictory: true },
+		{ title: 'Valorant Premier Contenders 2024', opponent: '', result: '', score: '', isVictory: true }
 	];
 </script>
 
@@ -38,65 +38,7 @@
 				<p style="font-size: 24px; margin-bottom: var(--gap-6); max-width: 64ch; margin-left: auto; margin-right: auto; color: var(--text-2);">
 					Professional esports association focused on competitive gaming excellence and team performance across multiple titles
 				</p>
-				<div style="display: flex; flex-wrap: wrap; gap: var(--gap-3); justify-content: center;">
-					<a href="/apex-legends" class="btn-primary btn-large">
-						Apex Legends Division
-					</a>
-					<a href="/valorant" class="btn-secondary btn-large">
-						Valorant Division
-					</a>
-					<a href="/careers" class="btn-secondary btn-large">
-						Join Our Team
-					</a>
-					{#if $user}
-						<a href="/dashboard" class="btn-primary">
-							Dashboard
-						</a>
-					{:else}
-						<a href="/auth/login" class="btn-secondary">
-							Join Community
-						</a>
-					{/if}
-				</div>
 			</div>
-		</div>
-	</section>
-
-	<!-- Values Section -->
-	<section class="section">
-		<div class="container">
-			<div style="text-align: center; margin-bottom: var(--gap-7);">
-				<h2 style="margin-bottom: var(--gap-3);">Our Values</h2>
-				<p style="font-size: 20px;">Excellence, transparency and performance in competitive gaming</p>
-			</div>
-			<div class="grid grid-3">
-				<div class="card">
-					<div style="font-size: 2.5rem; margin-bottom: var(--gap-3); color: var(--text);">TEAM</div>
-					<h3 style="margin-bottom: var(--gap-2);">Team Spirit</h3>
-					<p>Strong collaboration and communication for optimal performance</p>
-				</div>
-				<div class="card">
-					<div style="font-size: 2.5rem; margin-bottom: var(--gap-3); color: var(--text);">SKILL</div>
-					<h3 style="margin-bottom: var(--gap-2);">Competitive Excellence</h3>
-					<p>Continuous improvement and mastery of gaming techniques</p>
-				</div>
-				<div class="card">
-					<div style="font-size: 2.5rem; margin-bottom: var(--gap-3); color: var(--text);">GROWTH</div>
-					<h3 style="margin-bottom: var(--gap-2);">Professional Development</h3>
-					<p>Supporting player development and career advancement</p>
-				</div>
-			</div>
-		</div>
-	</section>
-
-	<!-- Team Statistics -->
-	<section class="section" style="background: var(--surface);">
-		<div class="container">
-			<div style="text-align: center; margin-bottom: var(--gap-7);">
-				<h2 style="margin-bottom: var(--gap-3);">Team Performance</h2>
-				<p style="font-size: 20px;">Overall statistics across all divisions</p>
-			</div>
-			<StatsGrid {stats} />
 		</div>
 	</section>
 

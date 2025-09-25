@@ -14,9 +14,9 @@
 	];
 
 	const matches = [
-		{ title: 'VCT Challengers', opponent: 'Team Shadow', result: 'Victory', score: '13-11', isVictory: true },
-		{ title: 'Weekly Cup', opponent: 'Crimson Gaming', result: 'Defeat', score: '8-13', isVictory: false },
-		{ title: 'Community Tournament', opponent: 'Night Hawks', result: 'Victory', score: '13-7', isVictory: true }
+		{ title: 'EVC European Championship 2024', opponent: '', result: 'Participation', score: '', isVictory: true },
+		{ title: 'Valorant Premier Contenders 2024', opponent: '', result: 'Participation', score: '', isVictory: true },
+		{ title: 'Weekly Community Tournament', opponent: 'Night Hawks', result: 'Victory', score: '13-7', isVictory: true }
 	];
 </script>
 

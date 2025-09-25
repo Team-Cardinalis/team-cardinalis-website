@@ -14,9 +14,10 @@
 	];
 
 	const matches = [
-		{ title: 'ALGS Pro League', opponent: 'Team Phoenix', result: 'Victory', score: '15-8', isVictory: true },
-		{ title: 'Championship Series', opponent: 'Elite Gaming', result: 'Defeat', score: '12-18', isVictory: false },
-		{ title: 'Weekly Tournament', opponent: 'Storm Riders', result: 'Victory', score: '20-5', isVictory: true }
+		{ title: 'ALGS Global Series 2024', opponent: '', result: 'Participation', score: '', isVictory: true },
+		{ title: 'ALGS Global Series 2023', opponent: '', result: 'Participation', score: '', isVictory: true },
+		{ title: 'ALGS Global Series 2022', opponent: '', result: 'Participation', score: '', isVictory: true },
+		{ title: 'ALGS Global Series 2021', opponent: '', result: 'Participation', score: '', isVictory: true }
 	];
 </script>
 

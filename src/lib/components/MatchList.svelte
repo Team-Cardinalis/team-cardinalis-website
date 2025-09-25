@@ -10,11 +10,17 @@
 			<div style="display: flex; justify-content: space-between; align-items: center;">
 				<div>
 					<h3 style="font-size: 1.25rem; font-weight: 600; margin-bottom: var(--gap-1);">{match.title}</h3>
-					<p style="color: var(--text-2);">vs {match.opponent}</p>
+					{#if match.opponent}
+						<p style="color: var(--text-2);">vs {match.opponent}</p>
+					{/if}
 				</div>
 				<div style="text-align: right;">
-					<div style="font-size: 1.5rem; font-weight: 600; color: {match.isVictory ? 'var(--text)' : 'var(--text-3)'};">{match.result}</div>
-					<div style="color: var(--text-2);">{match.score}</div>
+					{#if match.result}
+						<div style="font-size: 1.5rem; font-weight: 600; color: {match.isVictory ? 'var(--text)' : 'var(--text-3)'};">{match.result}</div>
+					{/if}
+					{#if match.score}
+						<div style="color: var(--text-2);">{match.score}</div>
+					{/if}
 				</div>
 			</div>
 		</div>
