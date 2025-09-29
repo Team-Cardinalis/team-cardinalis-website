@@ -113,8 +113,8 @@
 								on:mouseenter={(e) => {
 									const target = e.target as HTMLElement;
 									if (target) {
-										target.style.background = 'var(--accent)';
-										target.style.color = 'white';
+										target.style.background = 'white';
+										target.style.color = 'var(--bg)';
 										target.style.transform = 'translateY(-2px)';
 									}
 								}}
@@ -153,7 +153,7 @@
 									"
 									on:mouseenter={(e) => {
 										const target = e.target as HTMLElement;
-										if (target) target.style.color = 'var(--accent)';
+										if (target) target.style.color = 'white';
 									}}
 									on:mouseleave={(e) => {
 										const target = e.target as HTMLElement;
@@ -231,7 +231,7 @@
 									"
 									on:mouseenter={(e) => {
 										const target = e.target as HTMLElement;
-										if (target) target.style.color = 'var(--accent)';
+										if (target) target.style.color = 'white';
 									}}
 									on:mouseleave={(e) => {
 										const target = e.target as HTMLElement;
@@ -260,35 +260,8 @@
 					<p style="margin: 0; color: var(--text-3); font-size: 14px;">
 						© {currentYear} Team Cardinalis. All rights reserved.
 					</p>
-					<div style="display: flex; align-items: center; gap: var(--gap-2);">
-						<span style="color: var(--text-3); font-size: 12px;">Made with</span>
-						<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="color: #ff6b6b;">
-							<path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-						</svg>
-						<span style="color: var(--text-3); font-size: 12px;">in France</span>
-					</div>
 				</div>
 				
-				<div style="display: flex; align-items: center; gap: var(--gap-2);">
-					<span style="color: var(--text-3); font-size: 12px;">Powered by</span>
-					<div style="display: flex; align-items: center; gap: var(--gap-1);">
-						<img 
-							src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJMMTMuMDkgOC4yNkwyMCA5TDEzLjA5IDE1Ljc0TDEyIDIyTDEwLjkxIDE1Ljc0TDQgOUwxMC45MSA4LjI2TDEyIDJaIiBmaWxsPSIjRkY2QjZCIi8+Cjwvc3ZnPgo=" 
-							alt="Svelte" 
-							style="width: 16px; height: 16px;"
-						/>
-						<span style="color: var(--text-3); font-size: 12px;">Svelte</span>
-					</div>
-					<span style="color: var(--text-3); font-size: 12px;">•</span>
-					<div style="display: flex; align-items: center; gap: var(--gap-1);">
-						<img 
-							src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJMMTMuMDkgOC4yNkwyMCA5TDEzLjA5IDE1Ljc0TDEyIDIyTDEwLjkxIDE1Ljc0TDQgOUwxMC45MSA4LjI2TDEyIDJaIiBmaWxsPSIjRkZDQTI4Ii8+Cjwvc3ZnPgo=" 
-							alt="Firebase" 
-							style="width: 16px; height: 16px;"
-						/>
-						<span style="color: var(--text-3); font-size: 12px;">Firebase</span>
-					</div>
-				</div>
 			</div>
 		</div>
 	</footer>
