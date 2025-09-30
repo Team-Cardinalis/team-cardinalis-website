@@ -50,66 +50,44 @@
 				<p style="font-size: 20px;">Latest results from both Apex Legends and Valorant divisions</p>
 			</div>
 			<MatchList matches={recentMatches} />
-			<div style="text-align: center; margin-top: var(--gap-6);">
-				<a href="/apex-legends" class="btn-secondary" style="margin-right: var(--gap-3);">
-					View Apex Results
-				</a>
-				<a href="/valorant" class="btn-secondary">
-					View Valorant Results
-				</a>
-			</div>
 		</div>
 	</section>
 
-	<!-- Divisions Overview -->
-	<section class="section" style="background: var(--surface);">
+	<!-- Our Divisions -->
+	<section class="section" style="padding: var(--gap-6) 0;">
 		<div class="container">
-			<div style="text-align: center; margin-bottom: var(--gap-7);">
-				<h2 style="margin-bottom: var(--gap-3);">Our Divisions</h2>
-				<p style="font-size: 20px;">Compete across multiple esports titles</p>
+			<div style="text-align: center; margin-bottom: var(--gap-5);">
+				<h2 style="margin-bottom: var(--gap-2);">Our Divisions</h2>
+				<p style="font-size: 18px; color: var(--text-2); max-width: 40ch; margin: 0 auto;">
+					Two elite esports divisions competing at the highest level
+				</p>
 			</div>
-			<div class="grid grid-2">
-				<div class="card" style="position: relative; overflow: hidden;">
-					<div style="position: absolute; top: var(--gap-4); right: var(--gap-4); font-size: 4rem; opacity: 0.1; color: var(--text);">A</div>
-					<h3 style="font-size: 2rem; margin-bottom: var(--gap-3); color: var(--accent);">Apex Legends</h3>
-					<p style="margin-bottom: var(--gap-4); font-size: 18px;">
-						Battle royale excellence with strategic gameplay and team coordination in the ALGS competitive scene.
-					</p>
-					<div style="margin-bottom: var(--gap-3);">
-						<div style="display: flex; align-items: center; gap: var(--gap-2); margin-bottom: var(--gap-1);">
-							<span style="font-weight: 600;">12 Active Members</span>
-						</div>
-						<div style="display: flex; align-items: center; gap: var(--gap-2); margin-bottom: var(--gap-1);">
-							<span style="font-weight: 600;">8 Tournaments Won</span>
-						</div>
-						<div style="display: flex; align-items: center; gap: var(--gap-2);">
-							<span style="font-weight: 600;">#3 Regional Ranking</span>
+			
+			<div class="divisions-compact">
+				<!-- Apex Legends Division -->
+				<div class="division-compact">
+					<div class="division-info">
+						<h3>Apex Legends</h3>
+						<p>Battle royale excellence in the ALGS circuit</p>
+						<div class="division-meta-compact">
+							<span>12 Members</span>
+							<span>#3 Regional</span>
 						</div>
 					</div>
-					<a href="/apex-legends" class="btn-primary">
-						Explore Division
-					</a>
+					<a href="/apex-legends" class="btn-primary">Explore</a>
 				</div>
-				<div class="card" style="position: relative; overflow: hidden;">
-					<div style="position: absolute; top: var(--gap-4); right: var(--gap-4); font-size: 4rem; opacity: 0.1; color: var(--text);">V</div>
-					<h3 style="font-size: 2rem; margin-bottom: var(--gap-3); color: var(--accent);">Valorant</h3>
-					<p style="margin-bottom: var(--gap-4); font-size: 18px;">
-						Tactical 5v5 shooter competition with precise aim, strategy, and team communication in VCT.
-					</p>
-					<div style="margin-bottom: var(--gap-3);">
-						<div style="display: flex; align-items: center; gap: var(--gap-2); margin-bottom: var(--gap-1);">
-							<span style="font-weight: 600;">8 Active Members</span>
-						</div>
-						<div style="display: flex; align-items: center; gap: var(--gap-2); margin-bottom: var(--gap-1);">
-							<span style="font-weight: 600;">5 Tournaments Won</span>
-						</div>
-						<div style="display: flex; align-items: center; gap: var(--gap-2);">
-							<span style="font-weight: 600;">#7 Regional Ranking</span>
+
+				<!-- Valorant Division -->
+				<div class="division-compact">
+					<div class="division-info">
+						<h3>Valorant</h3>
+						<p>Tactical 5v5 combat in the VCT scene</p>
+						<div class="division-meta-compact">
+							<span>8 Members</span>
+							<span>#7 Regional</span>
 						</div>
 					</div>
-					<a href="/valorant" class="btn-primary">
-						Explore Division
-					</a>
+					<a href="/valorant" class="btn-primary">Explore</a>
 				</div>
 			</div>
 		</div>
@@ -121,3 +99,68 @@
 	<!-- Footer -->
 	<Footer />
 </div>
+
+<style>
+	.divisions-compact {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+		gap: var(--gap-4);
+		max-width: 900px;
+		margin: 0 auto;
+	}
+
+	.division-compact {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: var(--gap-4);
+		border: 1px solid var(--divider);
+		border-radius: var(--r-sm);
+		background: var(--surface);
+	}
+
+	.division-info {
+		flex: 1;
+	}
+
+	.division-compact h3 {
+		font-size: 1.25rem;
+		font-weight: 600;
+		color: var(--text);
+		margin: 0 0 var(--gap-1) 0;
+	}
+
+	.division-compact p {
+		font-size: 14px;
+		color: var(--text-2);
+		margin: 0 0 var(--gap-2) 0;
+		line-height: 1.4;
+	}
+
+	.division-meta-compact {
+		display: flex;
+		gap: var(--gap-3);
+	}
+
+	.division-meta-compact span {
+		font-size: 12px;
+		color: var(--text-3);
+	}
+
+	@media (max-width: 768px) {
+		.divisions-compact {
+			grid-template-columns: 1fr;
+			gap: var(--gap-3);
+		}
+
+		.division-compact {
+			flex-direction: column;
+			align-items: flex-start;
+			gap: var(--gap-3);
+		}
+
+		.division-compact .btn-primary {
+			align-self: flex-end;
+		}
+	}
+</style>

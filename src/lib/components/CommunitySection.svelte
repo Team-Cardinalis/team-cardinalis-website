@@ -15,9 +15,9 @@
 </script>
 
 {#if user}
-	<section class="section">
+	<section class="section community-section">
 		<div class="container">
-			<div style="text-align: center;">
+			<div class="community-content">
 				<h2 style="margin-bottom: var(--gap-3);">
 					{gameTitle}
 				</h2>
@@ -36,9 +36,9 @@
 		</div>
 	</section>
 {:else}
-	<section class="section">
+	<section class="section community-section">
 		<div class="container">
-			<div style="text-align: center;">
+			<div class="community-content">
 				<h2 style="margin-bottom: var(--gap-3);">
 					{gameTitle}
 				</h2>
@@ -54,3 +54,16 @@
 		</div>
 	</section>
 {/if}
+
+<style>
+	.community-section {
+		display: flex;
+		align-items: center;
+		min-height: 80vh;
+	}
+
+	.community-content {
+		text-align: center;
+		width: 100%;
+	}
+</style>

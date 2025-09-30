@@ -43,15 +43,15 @@
 	];
 
 	const legalLinks = [
-		{ name: 'Legal Notice', url: '/legal/mentions-legales' },
-		{ name: 'Privacy Policy', url: '/legal/politique-confidentialite' },
+		{ name: 'Legal Notice', url: '/legal/legal-notice' },
+		{ name: 'Privacy Policy', url: '/legal/privacy-policy' },
 		{ name: 'Cookies', url: '/legal/cookies' }
 	];
 
 	const contactInfo = {
 		email: 'contact@teamcardinalis.com',
 		discord: 'discord.gg/teamcardinalis',
-		address: 'France'
+		address: 'Europe'
 	};
 </script>
 
@@ -180,15 +180,7 @@
 							</svg>
 							<a 
 								href="mailto:{contactInfo.email}"
-								style="color: var(--text-2); text-decoration: none; font-size: 14px; transition: color 0.2s ease;"
-								on:mouseenter={(e) => {
-									const target = e.target as HTMLElement;
-									if (target) target.style.color = 'var(--accent)';
-								}}
-								on:mouseleave={(e) => {
-									const target = e.target as HTMLElement;
-									if (target) target.style.color = 'var(--text-2)';
-								}}
+								style="color: var(--text-2); text-decoration: none; font-size: 14px;"
 							>
 								{contactInfo.email}
 							</a>

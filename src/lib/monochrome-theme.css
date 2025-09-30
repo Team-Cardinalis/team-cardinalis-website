@@ -140,7 +140,7 @@ p {
 	border-radius: 10px;
 	background: transparent;
 	color: var(--accent);
-	border: 1px solid var(--divider);
+	border: none;
 	font-size: 14px;
 	font-weight: 500;
 	cursor: pointer;
@@ -150,9 +150,7 @@ p {
 	min-width: 36px;
 }
 
-.btn-secondary:hover {
-	background: rgba(255, 255, 255, 0.05);
-}
+/* .btn-secondary:hover removed - no hover effect for blue text buttons */
 
 /* Button variants for hierarchy */
 .btn-small {

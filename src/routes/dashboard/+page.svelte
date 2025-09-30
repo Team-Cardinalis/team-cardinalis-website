@@ -15,6 +15,7 @@
 	let isLoading = true;
 	let error: string = '';
 	let refreshInterval: NodeJS.Timeout | null = null;
+	let activeTab = 'overview';
 
 	onMount(() => {
 		loadDashboardData();
@@ -112,6 +113,19 @@
 		if (value >= 60) return '#FFC107';
 		return '#FF3B30';
 	}
+
+	function setActiveTab(tab: string): void {
+		activeTab = tab;
+	}
+
+	const tabs = [
+		{ id: 'overview', label: 'Overview' },
+		{ id: 'votes', label: 'Votes' },
+		{ id: 'proposals', label: 'Proposals' },
+		{ id: 'applications', label: 'Applications' },
+		{ id: 'community', label: 'Community' },
+		{ id: 'account', label: 'Account' }
+	];
 </script>
 
 <PageHead 
@@ -124,19 +138,17 @@
 	
 	<AuthGuard>
 		<!-- Main Content -->
-		<div class="container" style="padding-top: 120px; padding-bottom: var(--gap-8);">
+		<div class="dashboard-container">
 			<!-- Header -->
-			<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--gap-6);">
-				<div>
-					<h1 style="font-size: 2.5rem; font-weight: 700;">Dashboard</h1>
-					<p style="color: var(--text-2); font-size: 18px;">
-						Central hub for all community governance and democratic decision-making
-					</p>
+			<div class="dashboard-header">
+				<div class="header-content">
+					<h1>Dashboard</h1>
+					<p>Community governance and democratic decision-making</p>
 				</div>
 				<button
 					on:click={loadDashboardData}
 					disabled={isLoading}
-					class="btn-secondary btn-small"
+					class="refresh-btn"
 				>
 					{#if isLoading}
 						<LoadingIndicator isLoading={true} size="small" />
@@ -147,14 +159,14 @@
 			</div>
 
 			{#if error}
-				<div class="message-error" style="margin-bottom: var(--gap-6);">
-					<h3 style="margin-bottom: var(--gap-2);">Dashboard Status</h3>
-					<p style="margin-bottom: var(--gap-3);">{error}</p>
-					<div style="display: flex; gap: var(--gap-3);">
-						<button on:click={loadDashboardData} class="btn-primary btn-small">
+				<div class="error-state">
+					<h3>Dashboard Status</h3>
+					<p>{error}</p>
+					<div class="error-actions">
+						<button on:click={loadDashboardData} class="btn-primary">
 							Retry
 						</button>
-						<a href="/auth/login" class="btn-secondary btn-small">
+						<a href="/auth/login" class="btn-secondary">
 							Sign In Again
 						</a>
 					</div>
@@ -162,237 +174,765 @@
 			{/if}
 
 			{#if isLoading}
-				<div style="display: flex; justify-content: center; align-items: center; padding: var(--gap-8) 0;">
+				<div class="loading-state">
 					<LoadingIndicator isLoading={true} size="large" />
 				</div>
 			{:else}
-				<!-- Democratic Hub -->
-				<div class="card" style="margin-bottom: var(--gap-6);">
-					<h3 style="margin-bottom: var(--gap-4);">Democratic Hub</h3>
-					<p style="color: var(--text-2); margin-bottom: var(--gap-4);">
-						Access all democratic features and community governance tools
-					</p>
-					
-					<!-- Action Buttons Grid -->
-					<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--gap-3);">
-						<a href="/dashboard/propose" class="btn-primary">
-							Create Vote
-						</a>
-						<a href="/dashboard/proposals" class="btn-secondary">
-							Proposals {stats?.pendingProposals ? `(${stats.pendingProposals})` : ''}
-						</a>
-						<a href="/dashboard/applications" class="btn-secondary">
-							Applications {stats?.pendingApplications ? `(${stats.pendingApplications})` : ''}
-						</a>
-						<a href="/dashboard/final-votes" class="btn-secondary">
-							Final Votes
-						</a>
-						<a href="/dashboard/account" class="btn-secondary">
-							My Account
-						</a>
-					</div>
+				<!-- Tab Navigation -->
+				<div class="tab-navigation">
+					{#each tabs as tab}
+						<button
+							class="tab-button"
+							class:active={activeTab === tab.id}
+							on:click={() => setActiveTab(tab.id)}
+						>
+							<span class="tab-label">{tab.label}</span>
+							{#if tab.id === 'proposals' && stats?.pendingProposals}
+								<span class="tab-badge">{stats.pendingProposals}</span>
+							{/if}
+							{#if tab.id === 'applications' && stats?.pendingApplications}
+								<span class="tab-badge">{stats.pendingApplications}</span>
+							{/if}
+						</button>
+					{/each}
 				</div>
 
-				{#if stats && metrics}
-					<!-- Dashboard Content -->
-					<!-- Overview Metrics -->
-					<div class="grid grid-4" style="margin-bottom: var(--gap-6);">
-						<div class="card" style="text-align: center;">
-							<h3 style="font-size: 1.2rem; color: var(--text-2); margin-bottom: var(--gap-2);">Total Members</h3>
-							<p style="font-size: 2.5rem; font-weight: 700; color: var(--text);">{formatNumber(stats.totalMembers)}</p>
-						</div>
-						<div class="card" style="text-align: center;">
-							<h3 style="font-size: 1.2rem; color: var(--text-2); margin-bottom: var(--gap-2);">Active Votes</h3>
-							<p style="font-size: 2.5rem; font-weight: 700; color: var(--text);">{formatNumber(stats.activeVotes)}</p>
-						</div>
-						<div class="card" style="text-align: center;">
-							<h3 style="font-size: 1.2rem; color: var(--text-2); margin-bottom: var(--gap-2);">Pending Proposals</h3>
-							<p style="font-size: 2.5rem; font-weight: 700; color: var(--text);">{formatNumber(stats.pendingProposals)}</p>
-						</div>
-						<div class="card" style="text-align: center;">
-							<h3 style="font-size: 1.2rem; color: var(--text-2); margin-bottom: var(--gap-2);">Pending Applications</h3>
-							<p style="font-size: 2.5rem; font-weight: 700; color: var(--text);">{formatNumber(stats.pendingApplications)}</p>
-						</div>
-					</div>
+				<!-- Tab Content -->
+				<div class="tab-content">
+					{#if activeTab === 'overview'}
+						{#if stats && metrics}
+							<!-- Key Metrics -->
+							<div class="metrics-grid">
+								<div class="metric-item">
+									<div class="metric-value">{formatNumber(stats.totalMembers)}</div>
+									<div class="metric-label">Total Members</div>
+								</div>
+								<div class="metric-item">
+									<div class="metric-value">{formatNumber(stats.activeVotes)}</div>
+									<div class="metric-label">Active Votes</div>
+								</div>
+								<div class="metric-item">
+									<div class="metric-value">{formatNumber(stats.pendingProposals)}</div>
+									<div class="metric-label">Pending Proposals</div>
+								</div>
+								<div class="metric-item">
+									<div class="metric-value">{formatNumber(stats.pendingApplications)}</div>
+									<div class="metric-label">Pending Applications</div>
+								</div>
+							</div>
 
-					<!-- Community Health Metrics -->
-					<div class="card" style="margin-bottom: var(--gap-6);">
-						<h3 style="margin-bottom: var(--gap-4);">Community Health Metrics</h3>
-						<div class="grid grid-3">
-							<div style="padding: var(--gap-3); background: var(--surface-elevated); border-radius: var(--r-sm); border: 1px solid var(--divider);">
-								<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--gap-1);">
-									<span style="font-weight: 500; color: var(--text-2);">Engagement Rate</span>
-									<span style="font-size: 15px; color: {getMetricColor(metrics.engagementRate)};">
-										{metrics.engagementRate.toFixed(1)}%
-									</span>
-								</div>
-								<div class="progress">
-									<div
-										class="progress-fill"
-										style="width: {metrics.engagementRate}%; background: {getMetricColor(metrics.engagementRate)};"
-									></div>
-								</div>
-							</div>
-							<div style="padding: var(--gap-3); background: var(--surface-elevated); border-radius: var(--r-sm); border: 1px solid var(--divider);">
-								<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--gap-1);">
-									<span style="font-weight: 500; color: var(--text-2);">Vote Participation</span>
-									<span style="font-size: 15px; color: {getMetricColor(metrics.votingParticipation)};">
-										{metrics.votingParticipation.toFixed(1)}%
-									</span>
-								</div>
-								<div class="progress">
-									<div
-										class="progress-fill"
-										style="width: {metrics.votingParticipation}%; background: {getMetricColor(metrics.votingParticipation)};"
-									></div>
-								</div>
-							</div>
-							<div style="padding: var(--gap-3); background: var(--surface-elevated); border-radius: var(--r-sm); border: 1px solid var(--divider);">
-								<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--gap-1);">
-									<span style="font-weight: 500; color: var(--text-2);">Application Acceptance</span>
-									<span style="font-size: 15px; color: {getMetricColor(metrics.applicationAcceptanceRate)};">
-										{metrics.applicationAcceptanceRate.toFixed(1)}%
-									</span>
-								</div>
-								<div class="progress">
-									<div
-										class="progress-fill"
-										style="width: {metrics.applicationAcceptanceRate}%; background: {getMetricColor(metrics.applicationAcceptanceRate)};"
-									></div>
+							<!-- Community Health -->
+							<div class="health-section">
+								<h2>Community Health</h2>
+								<div class="health-metrics">
+									<div class="health-item">
+										<div class="health-header">
+											<span class="health-label">Engagement Rate</span>
+											<span class="health-value" style="color: {getMetricColor(metrics.engagementRate)};">
+												{metrics.engagementRate.toFixed(1)}%
+											</span>
+										</div>
+										<div class="health-bar">
+											<div class="health-fill" style="width: {metrics.engagementRate}%; background: {getMetricColor(metrics.engagementRate)};"></div>
+										</div>
+									</div>
+									<div class="health-item">
+										<div class="health-header">
+											<span class="health-label">Vote Participation</span>
+											<span class="health-value" style="color: {getMetricColor(metrics.votingParticipation)};">
+												{metrics.votingParticipation.toFixed(1)}%
+											</span>
+										</div>
+										<div class="health-bar">
+											<div class="health-fill" style="width: {metrics.votingParticipation}%; background: {getMetricColor(metrics.votingParticipation)};"></div>
+										</div>
+									</div>
+									<div class="health-item">
+										<div class="health-header">
+											<span class="health-label">Application Acceptance</span>
+											<span class="health-value" style="color: {getMetricColor(metrics.applicationAcceptanceRate)};">
+												{metrics.applicationAcceptanceRate.toFixed(1)}%
+											</span>
+										</div>
+										<div class="health-bar">
+											<div class="health-fill" style="width: {metrics.applicationAcceptanceRate}%; background: {getMetricColor(metrics.applicationAcceptanceRate)};"></div>
+										</div>
+									</div>
 								</div>
 							</div>
-						</div>
-					</div>
-
-					<!-- Active Votes -->
-					<div class="card" style="margin-bottom: var(--gap-6);">
-						<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--gap-3);">
-							<h3>Active Votes</h3>
-							<a href="/dashboard/propose" class="btn-primary btn-small">
-								Create New Vote
-							</a>
-						</div>
-						{#if stats.activeVotes === 0}
-							<div style="text-align: center; padding: var(--gap-4); color: var(--text-3);">
-								<p style="font-style: italic;">No active votes at the moment</p>
-								<p style="font-size: 14px; margin-top: var(--gap-2);">
-									Be the first to create a community vote!
-								</p>
+						{/if}
+					{:else if activeTab === 'votes'}
+						<div class="tab-section">
+							<div class="section-header">
+								<h2>Voting System</h2>
+								<a href="/dashboard/propose" class="btn-primary">
+									Create New Vote
+								</a>
 							</div>
-						{:else}
-							<div style="display: flex; flex-direction: column; gap: var(--gap-3);">
-								{#each stats.recentVotes.slice(0, 5) as vote}
-									<div style="padding: var(--gap-3); background: var(--surface-elevated); border-radius: var(--r-sm); border: 1px solid var(--divider);">
-										<div style="display: flex; justify-content: space-between; align-items: flex-start;">
-											<div style="flex: 1;">
-												<h4 style="margin-bottom: var(--gap-1); font-weight: 600;">{vote.title}</h4>
-												<p style="color: var(--text-2); font-size: 14px; margin-bottom: var(--gap-2);">
-													{vote.description}
-												</p>
-												<div style="display: flex; gap: var(--gap-3); font-size: 12px; color: var(--text-3);">
+							
+							{#if stats?.activeVotes === 0}
+								<div class="empty-state">
+									<p>No active votes at the moment</p>
+									<span>Be the first to create a community vote!</span>
+								</div>
+							{:else}
+								<div class="activity-list">
+									{#each (stats?.recentVotes || []).slice(0, 10) as vote}
+										<div class="activity-item">
+											<div class="activity-content">
+												<h4>{vote.title}</h4>
+												<p>{vote.description}</p>
+												<div class="activity-meta">
 													<span>Created: {formatDate(vote.createdAt)}</span>
 													<span>Ends: {getTimeRemaining(vote.endDate)}</span>
 													<span>Votes: {vote.totalVotes || 0}</span>
 												</div>
 											</div>
-											<div style="text-align: right;">
-												<div style="font-size: 14px; color: {getStatusColor(vote.isActive ? 'active' : 'completed')};">
-													{vote.isActive ? 'Active' : 'Completed'}
-												</div>
+											<div class="activity-status" style="color: {getStatusColor(vote.isActive ? 'active' : 'completed')};">
+												{vote.isActive ? 'Active' : 'Completed'}
 											</div>
 										</div>
-									</div>
-								{/each}
-							</div>
-						{/if}
-					</div>
-
-					<!-- Recent Proposals -->
-					<div class="card" style="margin-bottom: var(--gap-6);">
-						<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--gap-3);">
-							<h3>Recent Proposals</h3>
-							<a href="/dashboard/proposals" class="btn-secondary btn-small">
-								View All
-							</a>
+									{/each}
+								</div>
+							{/if}
 						</div>
-						{#if stats.recentProposals.length === 0}
-							<div style="text-align: center; padding: var(--gap-4); color: var(--text-3);">
-								<p style="font-style: italic;">No proposals yet</p>
-								<p style="font-size: 14px; margin-top: var(--gap-2);">
-									Start a discussion with your first proposal!
-								</p>
+					{:else if activeTab === 'proposals'}
+						<div class="tab-section">
+							<div class="section-header">
+								<h2>Community Proposals</h2>
+								<a href="/dashboard/propose" class="btn-primary">
+									Create Proposal
+								</a>
 							</div>
-						{:else}
-							<div style="display: flex; flex-direction: column; gap: var(--gap-3);">
-								{#each stats.recentProposals.slice(0, 5) as proposal}
-									<div style="padding: var(--gap-3); background: var(--surface-elevated); border-radius: var(--r-sm); border: 1px solid var(--divider);">
-										<div style="display: flex; justify-content: space-between; align-items: flex-start;">
-											<div style="flex: 1;">
-												<h4 style="margin-bottom: var(--gap-1); font-weight: 600;">{proposal.title}</h4>
-												<p style="color: var(--text-2); font-size: 14px; margin-bottom: var(--gap-2);">
-													{proposal.description}
-												</p>
-												<div style="display: flex; gap: var(--gap-3); font-size: 12px; color: var(--text-3);">
+							
+							{#if stats?.recentProposals.length === 0}
+								<div class="empty-state">
+									<p>No proposals yet</p>
+									<span>Start a discussion with your first proposal!</span>
+								</div>
+							{:else}
+								<div class="activity-list">
+									{#each (stats?.recentProposals || []).slice(0, 10) as proposal}
+										<div class="activity-item">
+											<div class="activity-content">
+												<h4>{proposal.title}</h4>
+												<p>{proposal.description}</p>
+												<div class="activity-meta">
 													<span>Created: {formatDate(proposal.createdAt)}</span>
 													<span>Upvotes: {proposal.upvotes}</span>
 													<span>Discussions: {proposal.discussions?.length || 0}</span>
 												</div>
 											</div>
-											<div style="text-align: right;">
-												<div style="font-size: 14px; color: {getStatusColor(proposal.status)};">
-													{proposal.status}
-												</div>
+											<div class="activity-status" style="color: {getStatusColor(proposal.status)};">
+												{proposal.status}
 											</div>
 										</div>
-									</div>
-								{/each}
-							</div>
-						{/if}
-					</div>
-
-					<!-- Recent Applications -->
-					<div class="card">
-						<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--gap-3);">
-							<h3>Recent Applications</h3>
-							<a href="/dashboard/applications" class="btn-secondary btn-small">
-								View All
-							</a>
+									{/each}
+								</div>
+							{/if}
 						</div>
-						{#if stats.recentApplications.length === 0}
-							<div style="text-align: center; padding: var(--gap-4); color: var(--text-3);">
-								<p style="font-style: italic;">No applications yet</p>
-								<p style="font-size: 14px; margin-top: var(--gap-2);">
-									Applications will appear here as they are submitted.
-								</p>
+					{:else if activeTab === 'applications'}
+						<div class="tab-section">
+							<div class="section-header">
+								<h2>Team Applications</h2>
+								<a href="/dashboard/apply" class="btn-primary">
+									Apply to Team
+								</a>
 							</div>
-						{:else}
-							<div style="display: flex; flex-direction: column; gap: var(--gap-3);">
-								{#each stats.recentApplications.slice(0, 5) as application}
-									<div style="padding: var(--gap-3); background: var(--surface-elevated); border-radius: var(--r-sm); border: 1px solid var(--divider);">
-										<div style="display: flex; justify-content: space-between; align-items: flex-start;">
-											<div style="flex: 1;">
-												<h4 style="margin-bottom: var(--gap-1); font-weight: 600;">{application.game} Application</h4>
-												<p style="color: var(--text-2); font-size: 14px; margin-bottom: var(--gap-2);">
-													{application.motivation}
-												</p>
-												<div style="display: flex; gap: var(--gap-3); font-size: 12px; color: var(--text-3);">
+							
+							{#if stats?.recentApplications.length === 0}
+								<div class="empty-state">
+									<p>No applications yet</p>
+									<span>Applications will appear here as they are submitted.</span>
+								</div>
+							{:else}
+								<div class="activity-list">
+									{#each (stats?.recentApplications || []).slice(0, 10) as application}
+										<div class="activity-item">
+											<div class="activity-content">
+												<h4>{application.game} Application</h4>
+												<p>{application.motivation}</p>
+												<div class="activity-meta">
 													<span>Applied: {formatDate(application.createdAt)}</span>
 													<span>Experience: {application.experience}</span>
 												</div>
 											</div>
-											<div style="text-align: right;">
-												<div style="font-size: 14px; color: {getStatusColor(application.status)};">
-													{application.status}
-												</div>
+											<div class="activity-status" style="color: {getStatusColor(application.status)};">
+												{application.status}
 											</div>
 										</div>
-									</div>
-								{/each}
+									{/each}
+								</div>
+							{/if}
+						</div>
+					{:else if activeTab === 'community'}
+						<div class="tab-section">
+							<div class="section-header">
+								<h2>Community Members</h2>
+								<span class="member-count">{stats?.totalMembers || 0} members</span>
 							</div>
-						{/if}
-					</div>
-				{/if}
+							
+							{#if stats?.mostActiveMembers.length === 0}
+								<div class="empty-state">
+									<p>No community data available</p>
+									<span>Community information will appear here.</span>
+								</div>
+							{:else}
+								<div class="community-grid">
+									{#each (stats?.mostActiveMembers || []).slice(0, 12) as member}
+										<div class="member-card">
+											<div class="member-avatar">
+												{member.displayName.charAt(0).toUpperCase()}
+											</div>
+											<div class="member-info">
+												<h4>{member.displayName}</h4>
+												<p>{member.role}</p>
+												<span class="activity-score">Activity: {member.activityScore}</span>
+											</div>
+										</div>
+									{/each}
+								</div>
+							{/if}
+						</div>
+					{:else if activeTab === 'account'}
+						<div class="tab-section">
+							<div class="section-header">
+								<h2>Account Settings</h2>
+							</div>
+							
+							<div class="account-settings">
+								<div class="setting-group">
+									<h3>Profile Information</h3>
+									<div class="setting-item">
+										<span class="setting-label">Display Name</span>
+										<span>{$user?.displayName || 'Not set'}</span>
+									</div>
+									<div class="setting-item">
+										<span class="setting-label">Email</span>
+										<span>{$user?.email || 'Not set'}</span>
+									</div>
+									<div class="setting-item">
+										<span class="setting-label">Member Since</span>
+										<span>{$user?.metadata?.creationTime ? formatDate(new Date($user.metadata.creationTime).getTime()) : 'Unknown'}</span>
+									</div>
+								</div>
+								
+								<div class="setting-group">
+									<h3>Quick Actions</h3>
+									<div class="action-buttons">
+										<a href="/dashboard/account" class="btn-secondary">Edit Profile</a>
+										<a href="/dashboard/apply" class="btn-secondary">Apply to Team</a>
+										<button class="btn-secondary" on:click={() => {}}>Export Data</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					{/if}
+				</div>
 			{/if}
 		</div>
 	</AuthGuard>
 </div>
+
+<style>
+	.dashboard-container {
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: 120px var(--gap-4) var(--gap-8);
+	}
+
+	.dashboard-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-start;
+		margin-bottom: var(--gap-8);
+		padding-bottom: var(--gap-6);
+		border-bottom: 1px solid var(--divider);
+	}
+
+	.header-content h1 {
+		font-size: 3rem;
+		font-weight: 600;
+		margin-bottom: var(--gap-2);
+		color: var(--text);
+	}
+
+	.header-content p {
+		font-size: 18px;
+		color: var(--text-2);
+		margin: 0;
+	}
+
+	.refresh-btn {
+		background: transparent;
+		border: 1px solid var(--divider);
+		color: var(--text-2);
+		padding: var(--gap-2) var(--gap-3);
+		border-radius: var(--r-sm);
+		font-size: 14px;
+		cursor: pointer;
+		transition: all 0.2s ease;
+	}
+
+	.refresh-btn:hover {
+		border-color: var(--divider-medium);
+		color: var(--text);
+	}
+
+	.error-state {
+		text-align: center;
+		padding: var(--gap-6);
+		margin-bottom: var(--gap-6);
+		border: 1px solid rgba(255, 59, 48, 0.2);
+		border-radius: var(--r-sm);
+		background: rgba(255, 59, 48, 0.05);
+	}
+
+	.error-state h3 {
+		color: #ff3b30;
+		margin-bottom: var(--gap-2);
+	}
+
+	.error-state p {
+		color: var(--text-2);
+		margin-bottom: var(--gap-4);
+	}
+
+	.error-actions {
+		display: flex;
+		gap: var(--gap-3);
+		justify-content: center;
+	}
+
+	.loading-state {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		padding: var(--gap-8) 0;
+	}
+
+	.tab-navigation {
+		display: flex;
+		gap: var(--gap-1);
+		margin-bottom: var(--gap-6);
+		padding-bottom: var(--gap-4);
+		border-bottom: 1px solid var(--divider);
+		overflow-x: auto;
+	}
+
+	.tab-button {
+		display: flex;
+		align-items: center;
+		gap: var(--gap-2);
+		padding: var(--gap-3) var(--gap-4);
+		border: none;
+		background: transparent;
+		color: var(--text-2);
+		font-size: 14px;
+		font-weight: 500;
+		cursor: pointer;
+		border-radius: var(--r-sm);
+		transition: all 0.2s ease;
+		white-space: nowrap;
+		position: relative;
+	}
+
+	.tab-button:hover {
+		color: var(--text);
+		background: var(--surface);
+	}
+
+	.tab-button.active {
+		color: var(--text);
+		background: var(--surface-elevated);
+		border: 1px solid var(--divider);
+	}
+
+	.tab-label {
+		font-size: 14px;
+	}
+
+	.tab-badge {
+		background: var(--accent);
+		color: white;
+		font-size: 11px;
+		font-weight: 600;
+		padding: 2px 6px;
+		border-radius: 10px;
+		min-width: 18px;
+		text-align: center;
+	}
+
+	.tab-content {
+		min-height: 400px;
+	}
+
+	.tab-section {
+		animation: fadeIn 0.3s ease-out;
+	}
+
+	@keyframes fadeIn {
+		from {
+			opacity: 0;
+			transform: translateY(10px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	.metrics-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+		gap: var(--gap-6);
+		margin-bottom: var(--gap-8);
+	}
+
+	.metric-item {
+		text-align: center;
+		padding: var(--gap-4) 0;
+	}
+
+	.metric-value {
+		font-size: 2.5rem;
+		font-weight: 700;
+		color: var(--text);
+		margin-bottom: var(--gap-1);
+		line-height: 1;
+	}
+
+	.metric-label {
+		font-size: 14px;
+		color: var(--text-2);
+		font-weight: 500;
+	}
+
+	.health-section {
+		margin-bottom: var(--gap-8);
+	}
+
+	.health-section h2 {
+		font-size: 1.5rem;
+		font-weight: 600;
+		margin-bottom: var(--gap-5);
+		color: var(--text);
+	}
+
+	.health-metrics {
+		display: flex;
+		flex-direction: column;
+		gap: var(--gap-4);
+	}
+
+	.health-item {
+		padding: var(--gap-4) 0;
+		border-bottom: 1px solid var(--divider);
+	}
+
+	.health-item:last-child {
+		border-bottom: none;
+	}
+
+	.health-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: var(--gap-2);
+	}
+
+	.health-label {
+		font-weight: 500;
+		color: var(--text-2);
+		font-size: 14px;
+	}
+
+	.health-value {
+		font-size: 15px;
+		font-weight: 600;
+	}
+
+	.health-bar {
+		height: 4px;
+		background: var(--surface);
+		border-radius: 2px;
+		overflow: hidden;
+	}
+
+	.health-fill {
+		height: 100%;
+		border-radius: 2px;
+		transition: width 0.3s ease;
+	}
+
+	.section-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: var(--gap-6);
+		padding-bottom: var(--gap-3);
+		border-bottom: 1px solid var(--divider);
+	}
+
+	.section-header h2 {
+		font-size: 1.5rem;
+		font-weight: 600;
+		color: var(--text);
+		margin: 0;
+	}
+
+	.empty-state {
+		text-align: center;
+		padding: var(--gap-6);
+		color: var(--text-3);
+	}
+
+	.empty-state p {
+		font-style: italic;
+		margin-bottom: var(--gap-1);
+	}
+
+	.empty-state span {
+		font-size: 14px;
+	}
+
+	.activity-list {
+		display: flex;
+		flex-direction: column;
+		gap: var(--gap-4);
+	}
+
+	.activity-item {
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-start;
+		padding: var(--gap-4) 0;
+		border-bottom: 1px solid var(--divider);
+	}
+
+	.activity-item:last-child {
+		border-bottom: none;
+	}
+
+	.activity-content {
+		flex: 1;
+	}
+
+	.activity-content h4 {
+		font-size: 1rem;
+		font-weight: 600;
+		color: var(--text);
+		margin-bottom: var(--gap-1);
+	}
+
+	.activity-content p {
+		color: var(--text-2);
+		font-size: 14px;
+		margin-bottom: var(--gap-2);
+		line-height: 1.4;
+	}
+
+	.activity-meta {
+		display: flex;
+		gap: var(--gap-3);
+		font-size: 12px;
+		color: var(--text-3);
+		flex-wrap: wrap;
+	}
+
+	.activity-status {
+		font-size: 14px;
+		font-weight: 500;
+		margin-left: var(--gap-3);
+	}
+
+	.community-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+		gap: var(--gap-4);
+	}
+
+	.member-card {
+		display: flex;
+		align-items: center;
+		gap: var(--gap-3);
+		padding: var(--gap-4);
+		border: 1px solid var(--divider);
+		border-radius: var(--r-sm);
+		background: var(--surface);
+		transition: all 0.2s ease;
+	}
+
+	.member-card:hover {
+		border-color: var(--divider-medium);
+		background: var(--surface-elevated);
+	}
+
+	.member-avatar {
+		width: 48px;
+		height: 48px;
+		border-radius: 50%;
+		background: var(--accent);
+		color: white;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 18px;
+		font-weight: 600;
+		flex-shrink: 0;
+	}
+
+	.member-info {
+		flex: 1;
+		min-width: 0;
+	}
+
+	.member-info h4 {
+		font-size: 16px;
+		font-weight: 600;
+		color: var(--text);
+		margin-bottom: var(--gap-1);
+	}
+
+	.member-info p {
+		font-size: 14px;
+		color: var(--text-2);
+		margin-bottom: var(--gap-1);
+	}
+
+	.activity-score {
+		font-size: 12px;
+		color: var(--text-3);
+	}
+
+	.member-count {
+		font-size: 14px;
+		color: var(--text-2);
+		font-weight: 500;
+	}
+
+	.account-settings {
+		display: flex;
+		flex-direction: column;
+		gap: var(--gap-6);
+	}
+
+	.setting-group {
+		padding: var(--gap-4) 0;
+		border-bottom: 1px solid var(--divider);
+	}
+
+	.setting-group:last-child {
+		border-bottom: none;
+	}
+
+	.setting-group h3 {
+		font-size: 18px;
+		font-weight: 600;
+		color: var(--text);
+		margin-bottom: var(--gap-4);
+	}
+
+	.setting-item {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: var(--gap-3) 0;
+		border-bottom: 1px solid var(--divider);
+	}
+
+	.setting-item:last-child {
+		border-bottom: none;
+	}
+
+	.setting-label {
+		font-size: 14px;
+		color: var(--text-2);
+		font-weight: 500;
+	}
+
+	.setting-item span {
+		font-size: 14px;
+		color: var(--text);
+	}
+
+	.action-buttons {
+		display: flex;
+		gap: var(--gap-3);
+		flex-wrap: wrap;
+	}
+
+	@media (max-width: 768px) {
+		.dashboard-container {
+			padding: 100px var(--gap-3) var(--gap-6);
+		}
+
+		.dashboard-header {
+			flex-direction: column;
+			gap: var(--gap-4);
+			align-items: flex-start;
+		}
+
+		.header-content h1 {
+			font-size: 2rem;
+		}
+
+		.tab-navigation {
+			gap: var(--gap-1);
+			padding-bottom: var(--gap-3);
+		}
+
+		.tab-button {
+			padding: var(--gap-2) var(--gap-3);
+			font-size: 13px;
+		}
+
+		.metrics-grid {
+			grid-template-columns: repeat(2, 1fr);
+			gap: var(--gap-4);
+		}
+
+		.section-header {
+			flex-direction: column;
+			align-items: flex-start;
+			gap: var(--gap-3);
+		}
+
+		.activity-item {
+			flex-direction: column;
+			gap: var(--gap-2);
+		}
+
+		.activity-status {
+			margin-left: 0;
+			align-self: flex-start;
+		}
+
+		.activity-meta {
+			flex-direction: column;
+			gap: var(--gap-1);
+		}
+
+		.community-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.member-card {
+			padding: var(--gap-3);
+		}
+
+		.action-buttons {
+			flex-direction: column;
+		}
+	}
+
+	@media (max-width: 480px) {
+		.metrics-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.metric-value {
+			font-size: 2rem;
+		}
+	}
+</style>
